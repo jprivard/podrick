@@ -1,13 +1,13 @@
-
 # Podrick
-
 This application is a SlackBot helping a Scrum Team.
 
 ### Available Modules
 #### Help
 Automatically bundled with the application, HELP will provide information on which modules are installed and how to use them.
+
 #### Team
 Podrick will help you to setup your teams, making sure you don't start spamming everyone for specific team activities.
+
 #### Poker Planning
 You don't have the physical cards with you? No problem. Just let Podrick know you wish to setup a Poker Game for your team and he's going to ask each member for their input.
 
@@ -32,11 +32,11 @@ Note 2: I've find the section called `Slack Real Time Messaging (RTM) API` in [t
 ```bash
 npm test
 ```
-###Start the bot
+
+#### Start the bot
 ```bash
 npm start
 ```
-
 When the script is running, you can always request Podrick to give you information on how to discuss with him.
 
 ##### Help
