@@ -5,6 +5,7 @@ mongoose.Promise = Promise;
 
 var teamSchema = new Schema({
     name: String,
+    meetup: String,
     members: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}]
 });
 
@@ -13,7 +14,7 @@ teamSchema.statics.getOrCreate = function (teamName) {
         this.findByName(teamName)
             .then(function (team) {
                 if (!team) {
-                    var newTeam = new Team({name: teamName, members: []});
+                    var newTeam = new Team({name: teamName, members: [], meetup: ''});
                     newTeam.save().then(function () {
                         resolve(newTeam);
                     }).catch(function (err) {

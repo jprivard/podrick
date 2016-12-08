@@ -4,6 +4,7 @@ var Team = require(root+'podrick/models/team');
 function TeamBuilder() {
     this.name = '';
     this.members = [];
+    this.meetup = '';
 }
 
 TeamBuilder.Object = Team;
@@ -18,8 +19,13 @@ TeamBuilder.prototype.addMember = function(member) {
     return this;
 };
 
+TeamBuilder.prototype.withMeetup = function(meetup) {
+    this.meetup = meetup;
+    return this;
+};
+
 TeamBuilder.prototype.build = function() {
-    return new TeamBuilder.Object({name: this.name, members: this.members});
+    return new TeamBuilder.Object({name: this.name, members: this.members, meetup: this.meetup});
 };
 
 module.exports = TeamBuilder;

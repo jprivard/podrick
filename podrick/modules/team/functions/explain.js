@@ -10,9 +10,10 @@ Explain.prototype.prepareTexts = function () {
     this.MATCH_TEAM = 'Who are "(.*)"';
     this.PART_OF_TEAM = 'You are part of the "{}" team.';
     this.NOT_PART_OF_TEAM = 'You are not part of a team.';
-    this.MEMBERS_OF = 'Proud members of "{}" are: \n';
+    this.MEMBERS_OF = 'Proud members of "{}" are:\n';
     this.MEMBERS_OF_LINE = '<@{}>\n';
-    this.NO_MEMBER = 'No member for team "{}".';
+    this.NO_MEMBER = 'No member for team "{}".\n';
+    this.MEETUP_URL = 'They usually meet on: {}\n';
 };
 
 Explain.prototype.listenedBy = function (bot) {
@@ -41,10 +42,11 @@ Explain.prototype.teamDetails = function (bot, message) {
             team.members.forEach(function (member) {
                 result += this.MEMBERS_OF_LINE.format(member.username);
             }.bind(this));
-            bot.reply(result);
         } else {
-            bot.reply(this.NO_MEMBER.format(team.name));
+            result = this.NO_MEMBER.format(team.name);
         }
+        result += this.MEETUP_URL.format(team.meetup);
+        bot.reply(result);
     }.bind(this));
 };
 

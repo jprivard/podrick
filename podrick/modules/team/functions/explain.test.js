@@ -1,4 +1,5 @@
 var chai = require('chai');
+var sinon = require('sinon');
 var expect = chai.expect;
 var Explain = require("./explain");
 var Test = require("../../../utils/test");
@@ -32,20 +33,27 @@ describe('Explain', function () {
         explain.userDetails(bot, message);
     });
 
-    it('Gives you the team\'s details.', function () {
+    it('Gives you the team\'s members.', function () {
         user1 = t.createMock('jprivard', t.aUser().withUsername('jprivard').build());
         user2 = t.createMock('etremblay', t.aUser().withUsername('etremblay').build());
         team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').addMember(user1).addMember(user2).build());
         t.getMock('team').expects('getOrCreate').once().withArgs('House Jayess').returns(Promise.resolve(team));
-        t.getMock('bot').expects('reply').once().withArgs('Proud members of "House Jayess" are: \n<@jprivard>\n<@etremblay>\n');
+        t.getMock('bot').expects('reply').once().withArgs(sinon.match('<@jprivard>\n<@etremblay>'));
 
+        explain.teamDetails(bot, message);
+    });
+
+    it('Gives the team registered meetup url', function () {
+        team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').withMeetup('http://hangout').build());
+        t.getMock('team').expects('getOrCreate').once().withArgs('House Jayess').returns(Promise.resolve(team));
+        t.getMock('bot').expects('reply').once().withArgs(sinon.match('They usually meet on: http://hangout'));
         explain.teamDetails(bot, message);
     });
 
     it('Warns you if the mentioned team has no member.', function () {
         team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').build());
         t.getMock('team').expects('getOrCreate').once().withArgs('House Jayess').returns(Promise.resolve(team));
-        t.getMock('bot').expects('reply').once().withArgs('No member for team "House Jayess".');
+        t.getMock('bot').expects('reply').once().withArgs(sinon.match('No member for team "House Jayess"'));
 
         explain.teamDetails(bot, message);
 
