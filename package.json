@@ -1,0 +1,27 @@
+{
+  "name": "podrick",
+  "version": "1.0.0",
+  "description": "Squire Bot helping your teams",
+  "main": "main.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "bluebird": "^3.4.6",
+    "botkit": "^0.4.1",
+    "mongoose": "^4.7.0",
+    "nconf": "^0.8.4"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.1.2",
+    "sinon": "^1.17.6",
+    "sinon-chai": "^2.8.0"
+  },
+  "scripts": {
+    "start": "NODE_ENV=production node main.js",
+    "test": "mocha podrick/**/*.test.js"
+  },
+  "author": "Jean-Philippe Rivard",
+  "license": "ISC"
+}

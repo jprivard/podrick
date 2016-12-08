@@ -1,0 +1,4 @@
+.idea
+podrick.iml
+node_modules
+config/production.json
