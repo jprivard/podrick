@@ -36,3 +36,11 @@ npm test
 ```bash
 npm start
 ```
+
+When the script is running, you can always request Podrick to give you information on how to discuss with him.
+
+##### Help
+`@podrick Help` in a channel or simply `help` in a direct message will list all the registered modules.
+
+##### How to
+`@podrick How to use "{Module Name}"` in a channel or simply `How to use "{Module Name}` in a direct message will give you all the registered functions for the specified module.

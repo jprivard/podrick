@@ -1,4 +1,4 @@
 {
-  "mongo": "",
-  "token": ""
+  "mongo": "mongodb://127.0.0.1/podrick",
+  "token": "xxxx-012345678901-UXnle93JXHwhznwzdf3Subz7"
 }
