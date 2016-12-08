@@ -4,7 +4,7 @@ var Start = require("./start");
 var Share = require("./share");
 var Test = require("../../../utils/test");
 
-describe('Start', function () {
+describe('Planning Poker Module / Start', function () {
     var t, start, bot, message, user, user1, user2, team, story, vote;
 
     it('Declares to the adapter when the function should be executed', function() {

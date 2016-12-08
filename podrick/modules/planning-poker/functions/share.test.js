@@ -3,7 +3,7 @@ var expect = chai.expect;
 var Share = require("./share");
 var Test = require("../../../utils/test");
 
-describe('Share', function () {
+describe('Planning Poker Module / Share', function () {
     var t, share, vote1, vote2, bot, message, story;
 
     it('Declares to the adapter when the function should be executed', function() {

@@ -3,7 +3,7 @@ var expect = chai.expect;
 var Subscribe = require("./subscribe");
 var Test = require("../../../utils/test");
 
-describe('Subscribe', function () {
+describe('Team Module / Subscribe', function () {
     var t, subscribe, bot, message, user, team;
 
     it('Declares to the adapter when the function should be executed', function() {

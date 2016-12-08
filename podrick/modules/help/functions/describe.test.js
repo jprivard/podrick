@@ -3,7 +3,7 @@ var expect = chai.expect;
 var Describe = require("./describe");
 var Test = require("../../../utils/test");
 
-describe('Describe', function () {
+describe('Help Module / Describe', function () {
     var t, describe, modules;
 
     it('Declares to the adapter when the function should be executed', function() {
