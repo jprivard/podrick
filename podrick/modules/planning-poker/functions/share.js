@@ -5,7 +5,7 @@ function Share(story) {
 
 Share.prototype.prepareTexts = function () {
     this.MATCH = 'Share results for (.*)';
-    this.DESCRIPTION = 'Share the results of a Planning Poker by saying: {} \n';
+    this.DESCRIPTION = 'Share the results of a Planning Poker by saying `{}`\n';
     this.NO_VOTE = 'I\'m afraid I have no result for this story.';
     this.MESSAGE = 'The results for {} are in:\n';
     this.LINE = '<@{}> voted {}\n';

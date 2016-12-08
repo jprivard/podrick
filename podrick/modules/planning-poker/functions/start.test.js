@@ -13,7 +13,7 @@ describe('Start', function () {
     });
 
     it('Describes what it can do', function() {
-        expect(start.description()).to.equal('Start a session of Planning Poker by saying: Setup poker for (.*) \n');
+        expect(start.description()).to.equal('Start a session of Planning Poker by saying `Setup poker for (.*)`\n');
     });
 
     it('Lets you know when you are not assigned to any team.', function () {

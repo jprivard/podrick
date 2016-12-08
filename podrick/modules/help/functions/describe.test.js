@@ -20,7 +20,7 @@ describe('Describe', function () {
         modules['Dos'] = t.createMock('dos', t.aModule());
         t.getMock('uno').expects('description').once().returns('Module 1');
         t.getMock('dos').expects('description').once().returns('Module 2');
-        t.getMock('bot').expects('reply').withArgs('I offer these services:\n- Module 1 (How to use "Uno")\n- Module 2 (How to use "Dos")\n');
+        t.getMock('bot').expects('reply').withArgs('I offer these services:\n- Module 1 (More details by saying `How to use "Uno"`)\n- Module 2 (More details by saying `How to use "Dos"`)\n');
         describe.modules(bot);
     });
 
@@ -29,7 +29,7 @@ describe('Describe', function () {
         modules['Dos'] = t.createMock('dos', t.aModule());
         t.getMock('uno').expects('description').once().returns('Module 1');
         t.getMock('dos').expects('description').once().returns('');
-        t.getMock('bot').expects('reply').withArgs('I offer these services:\n- Module 1 (How to use "Uno")\n');
+        t.getMock('bot').expects('reply').withArgs('I offer these services:\n- Module 1 (More details by saying `How to use "Uno"`)\n');
         describe.modules(bot);
     });
 

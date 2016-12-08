@@ -12,7 +12,7 @@ describe('Share', function () {
     });
 
     it('Describes what it can do', function() {
-        expect(share.description()).to.equal('Share the results of a Planning Poker by saying: Share results for (.*) \n');
+        expect(share.description()).to.equal('Share the results of a Planning Poker by saying `Share results for (.*)`\n');
     });
 
     it('Lets you know when there is no story for the mentioned key.', function () {

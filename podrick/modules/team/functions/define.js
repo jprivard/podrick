@@ -5,7 +5,7 @@ function Define(team, user) {
 }
 
 Define.prototype.prepareTexts = function () {
-    this.DESCRIPTION = 'Define the meetup place of the team by saying: `{}`';
+    this.DESCRIPTION = 'Define the meetup place of the team by saying `{}`';
     this.MATCH_MEETUP = 'Define Meetup to be "(.*)"';
     this.NO_TEAM = 'I\'m afraid you are not in a team. Please subscribe to one first.';
     this.OKAY = 'Okay. The value has been saved.';

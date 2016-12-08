@@ -12,7 +12,7 @@ describe('Unsubscribe', function () {
     });
 
     it('Describes what it can do', function() {
-        expect(unsubscribe.description()).to.equal('Remove you from a team by saying: Remove me from "(.*)"\n');
+        expect(unsubscribe.description()).to.equal('Remove you from a team by saying `Remove me from "(.*)"`\n');
     });
 
     it('Warns you if you\'re not part of the mentioned team.', function () {

@@ -13,7 +13,7 @@ describe('Define', function () {
     });
 
     it('Describes what it can do', function() {
-        expect(define.description()).to.equal('Define the meetup place of the team by saying: `Define Meetup to be "(.*)"`');
+        expect(define.description()).to.equal('Define the meetup place of the team by saying `Define Meetup to be "(.*)"`');
     });
 
     it('Warns you if you\'re not part of a team', function () {

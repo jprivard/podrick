@@ -6,7 +6,7 @@ function Describe(objects) {
 Describe.prototype.prepareTexts = function () {
     this.MATCH = 'Help';
     this.REPLY = 'I offer these services:\n';
-    this.LINE = '- {} (How to use "{}")\n';
+    this.LINE = '- {} (More details by saying `How to use "{}"`)\n';
 };
 
 Describe.prototype.description = function () {

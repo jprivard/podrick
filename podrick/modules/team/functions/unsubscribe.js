@@ -5,7 +5,7 @@ function Unsubscribe(team, user) {
 }
 
 Unsubscribe.prototype.prepareTexts = function () {
-    this.DESCRIPTION = 'Remove you from a team by saying: {}\n';
+    this.DESCRIPTION = 'Remove you from a team by saying `{}`\n';
     this.MATCH = 'Remove me from "(.*)"';
     this.NOT_MEMBER = "I'm afraid you are not a member of that team.";
     this.REMOVED = "You've been removed from the team.";

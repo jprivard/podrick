@@ -14,7 +14,7 @@ describe('Explain', function () {
     });
 
     it('Describes what it can do', function() {
-        expect(explain.description()).to.equal('Tell you more about yourself by saying: Who am I\n Tell you more about a specific team by saying: Who are "(.*)"\n');
+        expect(explain.description()).to.equal('Tell you more about yourself by saying `Who am I`\n Tell you more about a specific team by saying `Who are "(.*)"`\n');
     });
 
     it('Gives you your details.', function () {

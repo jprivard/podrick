@@ -5,7 +5,7 @@ function Explain(team, user) {
 }
 
 Explain.prototype.prepareTexts = function () {
-    this.DESCRIPTION = 'Tell you more about yourself by saying: {}\n Tell you more about a specific team by saying: {}\n';
+    this.DESCRIPTION = 'Tell you more about yourself by saying `{}`\n Tell you more about a specific team by saying `{}`\n';
     this.MATCH_USER = 'Who am I';
     this.MATCH_TEAM = 'Who are "(.*)"';
     this.PART_OF_TEAM = 'You are part of the "{}" team.';

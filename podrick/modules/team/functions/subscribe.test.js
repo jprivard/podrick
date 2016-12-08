@@ -12,7 +12,7 @@ describe('Subscribe', function () {
     });
 
     it('Describes what it can do', function() {
-        expect(subscribe.description()).to.equal('Add you to a team by saying: Add me to "(.*)"\n');
+        expect(subscribe.description()).to.equal('Add you to a team by saying `Add me to "(.*)"`\n');
     });
 
     it('Warns you if you\'re already part of the mentioned team.', function () {

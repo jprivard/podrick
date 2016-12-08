@@ -8,7 +8,7 @@ var Start = function(user, team, story, vote, share) {
 };
 
 Start.prototype.prepareTexts = function () {
-    this.DESCRIPTION = 'Start a session of Planning Poker by saying: {} \n';
+    this.DESCRIPTION = 'Start a session of Planning Poker by saying `{}`\n';
     this.MATCH = 'Setup poker for (.*)';
     this.SETUP_CONFIRM_MSG = 'Ok! I\'ll ask the team to cast their vote for {}';
     this.SETUP_ERROR_MSG = 'I\'m afraid there is no team to send the poker game to. Please, register to one first.';

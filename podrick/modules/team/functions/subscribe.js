@@ -5,7 +5,7 @@ function Subscribe(team, user) {
 }
 
 Subscribe.prototype.prepareTexts = function () {
-    this.DESCRIPTION = 'Add you to a team by saying: {}\n';
+    this.DESCRIPTION = 'Add you to a team by saying `{}`\n';
     this.MATCH = 'Add me to "(.*)"';
     this.ALREADY_MEMBER = "I'm afraid you already are a member.";
     this.ADDED = "You've been added to the team.";
