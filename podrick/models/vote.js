@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var voteSchema = new Schema({
+    schema_version: {type: Number, default:1},
     value: Number,
     user: String
 });

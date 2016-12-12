@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var storySchema = new Schema({
+    schema_version: {type: Number, default:1},
     key: String,
     votes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Vote'}]
 });
