@@ -28,6 +28,13 @@ Note 1: You can always refer to [this file](config/example.json) for an example 
 
 Note 2: I've find the section called `Slack Real Time Messaging (RTM) API` in [this documentation](https://www.fullstackpython.com/blog/build-first-slack-bot-python.html) to be quite interesting if you don't know how to create a Slack Bot.
 
+#### Update
+```bash
+npm run migrations
+```
+If you recently updated the files of this project, it is possible the objects in your collections need to be updated to reflect the new schema.
+
+By running the aforementioned command, it will make sure every objects in your collections fits the newest schema version.
 #### Run tests
 ```bash
 npm test
