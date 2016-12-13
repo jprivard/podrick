@@ -61,12 +61,8 @@ Test.prototype.aMongoose = function () {
     return new FakeMongoose();
 };
 
-Test.prototype.aMessage = function (username, match) {
-    return new FakeMessage(username,
-        [
-            '',
-            match
-        ]);
+Test.prototype.aMessage = function (username, matches) {
+    return new FakeMessage(username, [''].concat(matches));
 };
 
 String.prototype.format = function () {

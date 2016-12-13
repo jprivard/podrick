@@ -5,28 +5,33 @@ function Define(team, user) {
 }
 
 Define.prototype.prepareTexts = function () {
-    this.DESCRIPTION = 'Define the meetup place of the team by saying `{}`';
-    this.MATCH_MEETUP = 'Define Meetup to be "(.*)"';
+    this.DESCRIPTION = 'Define a team setting by saying `{}`';
+    this.MATCH = 'Define "(.*)" to be "(.*)"';
     this.NO_TEAM = 'I\'m afraid you are not in a team. Please subscribe to one first.';
+    this.NO_PROPERTY = 'I\'m afraid this is not a valid setting.';
     this.OKAY = 'Okay. The value has been saved.';
 };
 
 Define.prototype.listenedBy = function (bot) {
-    bot.reactsTo(this.MATCH_MEETUP, this.meetup.bind(this));
+    bot.reactsTo(this.MATCH, this.setting.bind(this));
 };
 
 Define.prototype.description = function () {
-    return this.DESCRIPTION.format(this.MATCH_MEETUP);
+    return this.DESCRIPTION.format(this.MATCH);
 };
 
-Define.prototype.meetup = function (bot, message) {
+Define.prototype.setting = function (bot, message) {
     this.user.getOrCreate(message.user).then(function (user) {
         if (user.team !== '') {
             this.team.getOrCreate(user.team).then(function (team) {
-                team.meetup = message.match[1];
-                team.save().then(function () {
-                    bot.reply(this.OKAY);
-                }.bind(this));
+                if (team[message.match[1]] !== undefined) {
+                    team[message.match[1]] = message.match[2];
+                    team.save().then(function () {
+                        bot.reply(this.OKAY);
+                    }.bind(this));
+                } else {
+                    bot.reply(this.NO_PROPERTY);
+                }
             }.bind(this));
         } else {
             bot.reply(this.NO_TEAM);
