@@ -7,7 +7,7 @@ describe('Team Module / Unsubscribe', function () {
     var t, unsubscribe, bot, message, user, team;
 
     it('Declares to the adapter when the function should be executed', function() {
-        t.bot().will().reactTo('Remove me from "(.*)"');
+        t.bot().will.reactTo('Remove me from "(.*)"');
         unsubscribe.listenedBy(bot);
     });
 
@@ -18,7 +18,7 @@ describe('Team Module / Unsubscribe', function () {
     it('Warns you if you\'re not part of the mentioned team.', function () {
         team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').build());
         t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(team));
-        t.bot().will().reply("you are not a member of that team.");
+        t.bot().will.reply("you are not a member of that team.");
 
         unsubscribe.fromTeam(bot, message);
     });
@@ -31,7 +31,7 @@ describe('Team Module / Unsubscribe', function () {
         t.user().getUser('jprivard').resolves(user);
         t.getMock('houseJayess').expects('save').once().returns(Promise.resolve(null));
         t.getMock('jprivard').expects('save').once().returns(Promise.resolve(null));
-        t.bot().will().reply("You've been removed from the team.");
+        t.bot().will.reply("You've been removed from the team.");
 
         unsubscribe.fromTeam(bot, message).then(function () {
             expect(user.team).to.be.empty;

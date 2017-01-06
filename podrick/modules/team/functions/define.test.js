@@ -8,7 +8,7 @@ describe('Team Module / Define', function () {
     var t, define, bot, message, team;
 
     it('Declares to the adapter when the function should be executed', function() {
-        t.bot().will().reactTo('Define "(.*)" to be "(.*)"');
+        t.bot().will.reactTo('Define "(.*)" to be "(.*)"');
         define.listenedBy(bot);
     });
 
@@ -18,7 +18,7 @@ describe('Team Module / Define', function () {
 
     it('Warns you if you\'re not part of a team', function () {
         t.user().getTeamOf('jprivard').rejects();
-        t.bot().will().reply('you are not in a team');
+        t.bot().will.reply('you are not in a team');
         define.setting(bot, message);
     });
 
@@ -26,7 +26,7 @@ describe('Team Module / Define', function () {
         message.match[1] = 'invalid';
         team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').build());
         t.user().getTeamOf('jprivard').resolves(team);
-        t.bot().will().reply('this is not a valid setting');
+        t.bot().will.reply('this is not a valid setting');
 
         define.setting(bot, message);
     });
@@ -35,7 +35,7 @@ describe('Team Module / Define', function () {
         team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').build());
         t.user().getTeamOf('jprivard').resolves(team);
         t.getMock('houseJayess').expects('save').once().returns(Promise.resolve(null));
-        t.bot().will().reply('The value has been saved');
+        t.bot().will.reply('The value has been saved');
 
         define.setting(bot, message);
     });

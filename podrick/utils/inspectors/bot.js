@@ -6,14 +6,13 @@ function BotInspector(mock) {
     this.positive = true;
 }
 
-BotInspector.prototype.will = function () {
-    return this;
-};
+Object.defineProperty(BotInspector.prototype, "not", {
+    get : function () { this.positive = false; return this; }
+});
 
-BotInspector.prototype.not = function () {
-    this.positive = false;
-    return this;
-};
+Object.defineProperty(BotInspector.prototype, "will", {
+    get : function () { return this; }
+});
 
 BotInspector.prototype.reply = function (expectation) {
     var func = expectation;

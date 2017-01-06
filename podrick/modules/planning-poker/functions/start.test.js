@@ -8,7 +8,7 @@ describe('Planning Poker Module / Start', function () {
     var t, start, bot, message, user, user1, user2, team, story, vote;
 
     it('Declares to the adapter when the function should be executed', function() {
-        t.bot().will().reactTo('Setup poker for (.*)');
+        t.bot().will.reactTo('Setup poker for (.*)');
         start.listenedBy(bot);
     });
 
@@ -18,7 +18,7 @@ describe('Planning Poker Module / Start', function () {
 
     it('Lets you know when you are not assigned to any team.', function () {
         t.user().getTeamOf('jprivard').rejects();
-        t.bot().will().reply('there is no team to send the poker game to');
+        t.bot().will.reply('there is no team to send the poker game to');
         start.game(bot, message);
     });
 
@@ -27,9 +27,9 @@ describe('Planning Poker Module / Start', function () {
         user2 = t.createMock('etremblay', t.aUser().withUsername('etremblay').withTeam('House Jayess').build());
         team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').addMember(user1).addMember(user2).build());
         t.user().getTeamOf('jprivard').resolves(team);
-        t.bot().will().converse().with(user1);
-        t.bot().will().converse().with(user2);
-        t.bot().will().reply('I\'ll ask the team to cast their vote for BLR-1337');
+        t.bot().will.converse().with(user1);
+        t.bot().will.converse().with(user2);
+        t.bot().will.reply('I\'ll ask the team to cast their vote for BLR-1337');
 
         start.game(bot, message);
     });
@@ -47,7 +47,7 @@ describe('Planning Poker Module / Start', function () {
         }};
 
         start_conversation();
-        t.bot().will().converse().and().say(conversation);
+        t.bot().will.converse().and().say(conversation);
 
         start.game(bot, message);
     });
@@ -69,7 +69,7 @@ describe('Planning Poker Module / Start', function () {
         }};
 
         start_conversation();
-        t.bot().will().converse().and().say(conversation);
+        t.bot().will.converse().and().say(conversation);
         t.getMock('share').expects('results').once();
 
         start.game(bot, message).then(function () {
@@ -93,8 +93,8 @@ describe('Planning Poker Module / Start', function () {
         t.getMock('vote').expects('createVote').once().withArgs('jprivard', '8').returns(Promise.resolve(vote));
         t.getMock('blr1337').expects('save').once().returns(Promise.resolve(null));
 
-        t.bot().will().converse().with(user1).and().say(conversation);
-        t.bot().will().converse().with(user2);
+        t.bot().will.converse().with(user1).and().say(conversation);
+        t.bot().will.converse().with(user2);
         t.getMock('share').expects('results').never();
 
         start.game(bot, message);

@@ -7,7 +7,7 @@ describe('Help Module / Teach', function () {
     var t, teach, modules;
 
     it('Declares to the adapter when the function should be executed', function() {
-        t.bot().will().reactTo('How to use "(.*)"');
+        t.bot().will.reactTo('How to use "(.*)"');
         teach.listenedBy(bot);
     });
 
@@ -21,14 +21,14 @@ describe('Help Module / Teach', function () {
         modules['Dos'] = t.createMock('dos', t.aModule());
         t.getMock('uno').expects('usage').once().returns('Function One');
         t.getMock('dos').expects('usage').never();
-        t.bot().will().reply('Function One');
+        t.bot().will.reply('Function One');
 
         teach.modules(bot, message);
     });
 
     it('Warns you if there is no module bearing that name', function () {
         var message = t.aMessage('jprivard', 'Uno');
-        t.bot().will().reply('I\'m afraid there is no module under that name (Uno)');
+        t.bot().will.reply('I\'m afraid there is no module under that name (Uno)');
 
         teach.modules(bot, message);
     });
