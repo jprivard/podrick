@@ -4,10 +4,10 @@ var Promise = require('bluebird');
 mongoose.Promise = Promise;
 
 var teamSchema = new Schema({
-    schema_version: {type: Number, default:2},
+    schema_version: {type: Number, default:3},
     name: String,
     meetup: String,
-    sprint_jql: String,
+    rapidview: Number,
     members: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}]
 });
 
@@ -16,7 +16,7 @@ teamSchema.statics.getOrCreate = function (teamName) {
         this.findByName(teamName)
             .then(function (team) {
                 if (!team) {
-                    var newTeam = new Team({name: teamName, members: [], meetup: '', sprint_jql: ''});
+                    var newTeam = new Team({name: teamName, members: [], meetup: '', rapidview: 0});
                     newTeam.save().then(function () {
                         resolve(newTeam);
                     }).catch(function (err) {

@@ -6,7 +6,9 @@ function getOptionsFromConfigFile () {
 
     options.mongo = nconf.get('mongo');
     options.token = nconf.get('token');
-    return options
+    options.jira = nconf.get('jira');
+    options.daily = nconf.get('daily');
+    return options;
 }
 
 module.exports = getOptionsFromConfigFile ();

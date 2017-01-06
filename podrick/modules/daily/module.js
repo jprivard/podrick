@@ -8,8 +8,8 @@ function Daily(explain) {
 
 Daily.name = "Help";
 
-Daily.getInstance = function () {
-    var explain = new Explain(Team, User);
+Daily.getInstance = function (jira, config) {
+    var explain = new Explain(jira, config, Team, User);
     return new Daily(explain);
 };
 

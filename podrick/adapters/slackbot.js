@@ -1,7 +1,7 @@
 var Botkit = require('botkit');
 
-function SlackBot(config) {
-    this.config = config;
+function SlackBot(token) {
+    this.token = token;
     this.DIRECT_MESSAGE = 'direct_message';
     this.DIRECT_MENTION = 'direct_mention';
     this.MENTION = 'mention';
@@ -13,7 +13,7 @@ function SlackBot(config) {
 
 SlackBot.prototype.start = function() {
     this.controller.spawn({
-        token: this.config.token
+        token: this.token
     }).startRTM();
 };
 

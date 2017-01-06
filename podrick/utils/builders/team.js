@@ -5,6 +5,7 @@ function TeamBuilder() {
     this.name = '';
     this.members = [];
     this.meetup = '';
+    this.rapidView = 0;
 }
 
 TeamBuilder.Object = Team;
@@ -24,8 +25,13 @@ TeamBuilder.prototype.withMeetup = function(meetup) {
     return this;
 };
 
+TeamBuilder.prototype.withRapidView = function(rapidView) {
+    this.rapidView = rapidView;
+    return this;
+};
+
 TeamBuilder.prototype.build = function() {
-    return new TeamBuilder.Object({name: this.name, members: this.members, meetup: this.meetup});
+    return new TeamBuilder.Object({name: this.name, members: this.members, meetup: this.meetup, rapidview: this.rapidView});
 };
 
 module.exports = TeamBuilder;
