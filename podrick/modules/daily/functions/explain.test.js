@@ -27,9 +27,8 @@ describe('Daily Module / Explain', function () {
         expect(explain.getLastWorkingDay().toString()).to.equal('Fri Jan 06 2017 00:00:00 GMT-0500 (EST)');
     });
 
-    it('Explains to the user he/she is not part of a team', function () {
-        var user = t.createMock('jprivard', t.aUser().withUsername('jprivard').build());
-        t.getMock('user').expects('get').once().withArgs('jprivard').returns(Promise.resolve(user));
+    it('Tells the user is not part of a team', function () {
+        t.getMock('user').expects('getTeam').once().withArgs('jprivard').returns(Promise.reject('No User'));
         t.bot().will().reply('You are not part of a team');
 
         explain.details(bot, message);
@@ -38,8 +37,7 @@ describe('Daily Module / Explain', function () {
     it('Tags teammates that the Daily is about to start', function() {
         var user = t.createMock('jprivard', t.aUser().withUsername('jprivard').withTeam('House Jayess').build());
         var team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').addMember(user).withMeetup('http://hangout').withRapidView(123).build());
-        t.getMock('user').expects('get').once().withArgs('jprivard').returns(Promise.resolve(user));
-        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(team));
+        t.getMock('user').expects('getTeam').once().withArgs('jprivard').returns(Promise.resolve(team));
         t.getMock('jira').expects('getSummarySinceLastDaily').once().withArgs(123).returns(Promise.resolve([]));
         t.bot().will().reply('<@jprivard>: Your daily is about to start');
 
@@ -47,10 +45,8 @@ describe('Daily Module / Explain', function () {
     });
 
     it('Gives the team registered meetup url when one is set', function () {
-        var user = t.createMock('jprivard', t.aUser().withUsername('jprivard').withTeam('House Jayess').build());
-        var team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').addMember(user).withMeetup('http://hangout').withRapidView(123).build());
-        t.getMock('user').expects('get').once().withArgs('jprivard').returns(Promise.resolve(user));
-        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(team));
+        var team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').withMeetup('http://hangout').withRapidView(123).build());
+        t.getMock('user').expects('getTeam').once().withArgs('jprivard').returns(Promise.resolve(team));
         t.getMock('jira').expects('getSummarySinceLastDaily').once().withArgs(123).returns(Promise.resolve([]));
         t.bot().will().reply('Location: http://hangout');
 
@@ -58,10 +54,8 @@ describe('Daily Module / Explain', function () {
     });
 
     it('Gives no meetup url when none is set', function () {
-        var user = t.createMock('jprivard', t.aUser().withUsername('jprivard').withTeam('House Jayess').build());
-        var team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').addMember(user).withMeetup('').withRapidView(123).build());
-        t.getMock('user').expects('get').once().withArgs('jprivard').returns(Promise.resolve(user));
-        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(team));
+        var team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').withMeetup('').withRapidView(123).build());
+        t.getMock('user').expects('getTeam').once().withArgs('jprivard').returns(Promise.resolve(team));
         t.getMock('jira').expects('getSummarySinceLastDaily').once().withArgs(123).returns(Promise.resolve([]));
         t.bot().will().not().reply('Location');
 
@@ -69,10 +63,8 @@ describe('Daily Module / Explain', function () {
     });
 
     it('Won\'t talk about any changes in Jira if nothing happened', function () {
-        var user = t.createMock('jprivard', t.aUser().withUsername('jprivard').withTeam('House Jayess').build());
-        var team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').addMember(user).withMeetup('').withRapidView(123).build());
-        t.getMock('user').expects('get').once().withArgs('jprivard').returns(Promise.resolve(user));
-        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(team));
+        var team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').withRapidView(123).build());
+        t.getMock('user').expects('getTeam').once().withArgs('jprivard').returns(Promise.resolve(team));
         t.getMock('jira').expects('getSummarySinceLastDaily').once().withArgs(123).returns(Promise.resolve([]));
         t.bot().will().not().reply('I noticed these changes in JIRA');
 
@@ -81,10 +73,8 @@ describe('Daily Module / Explain', function () {
 
     it('Lists all the activities in Jira', function () {
         var logs = [{author: 'JP', key:'BLR-123', summary:'Do Stuff', from:'In Progress', to:'Resolved'}];
-        var user = t.createMock('jprivard', t.aUser().withUsername('jprivard').withTeam('House Jayess').build());
-        var team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').addMember(user).withMeetup('').withRapidView(123).build());
-        t.getMock('user').expects('get').once().withArgs('jprivard').returns(Promise.resolve(user));
-        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(team));
+        var team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').withRapidView(123).build());
+        t.getMock('user').expects('getTeam').once().withArgs('jprivard').returns(Promise.resolve(team));
         t.getMock('jira').expects('getSummarySinceLastDaily').once().withArgs(123).returns(Promise.resolve(logs));
         t.bot().will().reply([
             "I noticed these changes in JIRA",
@@ -100,7 +90,7 @@ describe('Daily Module / Explain', function () {
         message = t.createMock('message', t.aMessage('jprivard', ''));
         jira = t.createMock('jira', new Jira());
         var config = {jiraUrl: 'https://jira/'};
-        explain = new Explain(jira, config, t.createMock('team', Test.Team.Object), t.createMock('user', Test.User.Object));
+        explain = new Explain(jira, config, t.createMock('user', Test.User.Object));
     });
 
     afterEach(function () {

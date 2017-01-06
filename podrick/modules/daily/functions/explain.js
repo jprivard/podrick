@@ -1,8 +1,7 @@
-function Explain(jira, config, team, user) {
+function Explain(jira, config, user) {
     this.jira = jira;
     this.config = config;
     this.user = user;
-    this.team = team;
     this.prepareTexts();
 }
 
@@ -26,23 +25,20 @@ Explain.prototype.listenedBy = function (bot) {
 };
 
 Explain.prototype.details = function (bot, message) {
-    this.user.get(message.user).then(function (user) {
-        if (user.team != '') {
-            this.team.get(user.team).then(function (team) {
-                this.jira.getSummarySinceLastDaily(team.rapidview, this.getLastWorkingDay()).then(function (logs) {
-                    var message = this.HEADLINE.format(this._listMembers(team));
-                    if (team.meetup) {
-                        message += this.MEETUP.format(team.meetup);
-                    }
-                    if (logs.length > 0) {
-                        message += this._listActivity(logs);
-                    }
-                    bot.reply(message);
-                }.bind(this));
-            }.bind(this));
-        } else {
-            bot.reply(this.NOT_PART_OF_TEAM);
-        }
+    var date = this.getLastWorkingDay();
+    this.user.getTeam(message.user).then(function (team) {
+        this.jira.getSummarySinceLastDaily(team.rapidview, date).then(function (logs) {
+            var message = this.HEADLINE.format(this._listMembers(team));
+            if (team.meetup) {
+                message += this.MEETUP.format(team.meetup);
+            }
+            if (logs.length > 0) {
+                message += this._listActivity(logs);
+            }
+            bot.reply(message);
+        }.bind(this));
+    }.bind(this), function (reason) {
+        bot.reply(this.NOT_PART_OF_TEAM);
     }.bind(this));
 };
 

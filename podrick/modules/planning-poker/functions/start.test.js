@@ -17,18 +17,16 @@ describe('Planning Poker Module / Start', function () {
     });
 
     it('Lets you know when you are not assigned to any team.', function () {
-        user = t.createMock('jprivard', t.aUser().withUsername('jprivard').build());
-        t.getMock('user').expects('get').once().withArgs('jprivard').returns(Promise.resolve(user));
+        t.getMock('user').expects('getTeam').once().withArgs('jprivard').returns(Promise.reject('No Team'));
         t.bot().will().reply('there is no team to send the poker game to');
-
         start.game(bot, message);
     });
+
     it('Acknowledges your requests are sends the game to your team members.', function () {
         user1 = t.createMock('jprivard', t.aUser().withUsername('jprivard').withTeam('House Jayess').build());
         user2 = t.createMock('etremblay', t.aUser().withUsername('etremblay').withTeam('House Jayess').build());
         team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').addMember(user1).addMember(user2).build());
-        t.getMock('user').expects('get').once().withArgs('jprivard').returns(Promise.resolve(user1));
-        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(team));
+        t.getMock('user').expects('getTeam').once().withArgs('jprivard').returns(Promise.resolve(team));
         t.bot().will().converse().with(user1);
         t.bot().will().converse().with(user2);
         t.bot().will().reply('I\'ll ask the team to cast their vote for BLR-1337');
@@ -88,8 +86,7 @@ describe('Planning Poker Module / Start', function () {
         user1 = t.createMock('jprivard', t.aUser().withUsername('jprivard').withTeam('House Jayess').build());
         user2 = t.createMock('etremblay', t.aUser().withUsername('etremblay').withTeam('House Jayess').build());
         team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').addMember(user1).addMember(user2).build());
-        t.getMock('user').expects('get').once().withArgs('jprivard').returns(Promise.resolve(user));
-        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(team));
+        t.getMock('user').expects('getTeam').once().withArgs('jprivard').returns(Promise.resolve(team));
         story = t.createMock('blr1337', t.aStory().withKey('BLR-1337').build());
         vote = t.aVote().withUser('jprivard').withValue(8).build();
         t.getMock('story').expects('get').once().withArgs('BLR-1337').returns(Promise.resolve(story));
@@ -107,12 +104,11 @@ describe('Planning Poker Module / Start', function () {
         t = new Test();
         message = t.aMessage('jprivard', 'BLR-1337');
         bot = t.createMock('bot', t.aBot());
-        var teamObj = t.createMock('team', Test.Team.Object);
         var userObj = t.createMock('user', Test.User.Object);
         var storyObj = t.createMock('story', Test.Story.Object);
         var voteObj = t.createMock('vote', Test.Vote.Object);
         var shareObj = t.createMock('share', new Share(storyObj));
-        start = new Start(userObj, teamObj, storyObj, voteObj, shareObj);
+        start = new Start(userObj, storyObj, voteObj, shareObj);
     });
 
     afterEach(function () {
@@ -122,7 +118,6 @@ describe('Planning Poker Module / Start', function () {
     var start_conversation = function () {
         user = t.createMock('jprivard', t.aUser().withUsername('jprivard').withTeam('House Jayess').build());
         team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').addMember(user).build());
-        t.getMock('user').expects('get').once().withArgs('jprivard').returns(Promise.resolve(user));
-        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(team));
+        t.getMock('user').expects('getTeam').once().withArgs('jprivard').returns(Promise.resolve(team));
     };
 });

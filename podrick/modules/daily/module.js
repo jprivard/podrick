@@ -1,5 +1,4 @@
 var User = require('../../models/user');
-var Team = require('../../models/team');
 var Explain = require('./functions/explain');
 
 function Daily(explain) {
@@ -9,7 +8,7 @@ function Daily(explain) {
 Daily.name = "Help";
 
 Daily.getInstance = function (jira, config) {
-    var explain = new Explain(jira, config, Team, User);
+    var explain = new Explain(jira, config, User);
     return new Daily(explain);
 };
 

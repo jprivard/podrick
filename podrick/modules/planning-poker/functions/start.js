@@ -1,6 +1,5 @@
-var Start = function(user, team, story, vote, share) {
+var Start = function(user, story, vote, share) {
     this.user = user;
-    this.team = team;
     this.story = story;
     this.vote = vote;
     this.share = share;
@@ -29,15 +28,11 @@ Start.prototype.listenedBy = function (bot) {
 Start.prototype.game = function (bot, message) {
     this.message = message;
     return new Promise(function (resolve) {
-        this.user.get(message.user).then(function (user) {
-            if (user.team !== '') {
-                this.team.get(user.team).then(function (team) {
-                    team.members.forEach(this._open_conversation.bind(this, bot, message.match[1], team, resolve));
-                }.bind(this));
-                bot.reply(this.SETUP_CONFIRM_MSG.format(message.match[1]));
-            } else {
-                bot.reply(this.SETUP_ERROR_MSG);
-            }
+        this.user.getTeam(message.user).then(function (team) {
+            team.members.forEach(this._open_conversation.bind(this, bot, message.match[1], team, resolve));
+            bot.reply(this.SETUP_CONFIRM_MSG.format(message.match[1]));
+        }.bind(this), function (reason) {
+            bot.reply(this.SETUP_ERROR_MSG);
         }.bind(this));
     }.bind(this));
 };

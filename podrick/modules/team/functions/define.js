@@ -1,5 +1,4 @@
-function Define(team, user) {
-    this.team = team;
+function Define(user) {
     this.user = user;
     this.prepareTexts();
 }
@@ -21,21 +20,17 @@ Define.prototype.description = function () {
 };
 
 Define.prototype.setting = function (bot, message) {
-    this.user.get(message.user).then(function (user) {
-        if (user.team !== '') {
-            this.team.get(user.team).then(function (team) {
-                if (team[message.match[1]] !== undefined) {
-                    team[message.match[1]] = message.match[2];
-                    team.save().then(function () {
-                        bot.reply(this.OKAY);
-                    }.bind(this));
-                } else {
-                    bot.reply(this.NO_PROPERTY);
-                }
+    this.user.getTeam(message.user).then(function (team) {
+        if (team[message.match[1]] !== undefined) {
+            team[message.match[1]] = message.match[2];
+            team.save().then(function () {
+                bot.reply(this.OKAY);
             }.bind(this));
         } else {
-            bot.reply(this.NO_TEAM);
+            bot.reply(this.NO_PROPERTY);
         }
+    }.bind(this), function (reason) {
+        bot.reply(this.NO_TEAM);
     }.bind(this));
 };
 
