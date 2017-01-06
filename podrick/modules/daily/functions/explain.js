@@ -26,9 +26,9 @@ Explain.prototype.listenedBy = function (bot) {
 };
 
 Explain.prototype.details = function (bot, message) {
-    this.user.getOrCreate(message.user).then(function (user) {
+    this.user.get(message.user).then(function (user) {
         if (user.team != '') {
-            this.team.getOrCreate(user.team).then(function (team) {
+            this.team.get(user.team).then(function (team) {
                 this.jira.getSummarySinceLastDaily(team.rapidview, this.getLastWorkingDay()).then(function (logs) {
                     var message = this.HEADLINE.format(this._listMembers(team));
                     if (team.meetup) {

@@ -7,7 +7,7 @@ var userSchema = new Schema({
     team: String
 });
 
-userSchema.statics.getOrCreate = function (username) {
+userSchema.statics.get = function (username) {
     return new Promise(function (resolve, reject) {
         this.findByUsername(username)
             .then(function (user) {

@@ -17,7 +17,7 @@ describe('Team Module / Explain', function () {
 
     it('Gives you your details.', function () {
         user = t.createMock('jprivard', t.aUser().withUsername('jprivard').withTeam('House Jayess').build());
-        t.getMock('user').expects('getOrCreate').once().withArgs('jprivard').returns(Promise.resolve(user));
+        t.getMock('user').expects('get').once().withArgs('jprivard').returns(Promise.resolve(user));
         t.bot().will().reply('You are part of the "House Jayess" team');
 
         explain.userDetails(bot, message);
@@ -25,7 +25,7 @@ describe('Team Module / Explain', function () {
 
     it('Lets you know when you\'re not part of a team.', function () {
         user = t.createMock('jprivard', t.aUser().withUsername('jprivard').build());
-        t.getMock('user').expects('getOrCreate').once().withArgs('jprivard').returns(Promise.resolve(user));
+        t.getMock('user').expects('get').once().withArgs('jprivard').returns(Promise.resolve(user));
         t.bot().will().reply('You are not part of a team');
 
         explain.userDetails(bot, message);
@@ -35,7 +35,7 @@ describe('Team Module / Explain', function () {
         user1 = t.createMock('jprivard', t.aUser().withUsername('jprivard').build());
         user2 = t.createMock('etremblay', t.aUser().withUsername('etremblay').build());
         team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').addMember(user1).addMember(user2).build());
-        t.getMock('team').expects('getOrCreate').once().withArgs('House Jayess').returns(Promise.resolve(team));
+        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(team));
         t.bot().will().reply(['<@jprivard>', '<@etremblay>']);
 
         explain.teamDetails(bot, message);
@@ -43,7 +43,7 @@ describe('Team Module / Explain', function () {
 
     it('Gives the team registered meetup url', function () {
         team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').withMeetup('http://hangout').build());
-        t.getMock('team').expects('getOrCreate').once().withArgs('House Jayess').returns(Promise.resolve(team));
+        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(team));
         t.bot().will().reply('They usually meet on: http://hangout');
 
         explain.teamDetails(bot, message);
@@ -51,7 +51,7 @@ describe('Team Module / Explain', function () {
 
     it('Warns you if the mentioned team has no member.', function () {
         team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').build());
-        t.getMock('team').expects('getOrCreate').once().withArgs('House Jayess').returns(Promise.resolve(team));
+        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(team));
         t.bot().will().reply('No member for team "House Jayess"');
 
         explain.teamDetails(bot, message);

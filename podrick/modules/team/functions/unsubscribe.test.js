@@ -18,7 +18,7 @@ describe('Team Module / Unsubscribe', function () {
     it('Warns you if you\'re not part of the mentioned team.', function () {
         team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').build());
 
-        t.getMock('team').expects('getOrCreate').once().withArgs('House Jayess').returns(Promise.resolve(team));
+        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(team));
         t.bot().will().reply("you are not a member of that team.");
 
         unsubscribe.fromTeam(bot, message);
@@ -28,8 +28,8 @@ describe('Team Module / Unsubscribe', function () {
         user = t.createMock('jprivard', t.aUser().withUsername('jprivard').withTeam('House Jayess').build());
         team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').addMember(user).build());
 
-        t.getMock('team').expects('getOrCreate').once().withArgs('House Jayess').returns(Promise.resolve(team));
-        t.getMock('user').expects('getOrCreate').once().withArgs('jprivard').returns(Promise.resolve(user));
+        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(team));
+        t.getMock('user').expects('get').once().withArgs('jprivard').returns(Promise.resolve(user));
         t.getMock('houseJayess').expects('save').once().returns(Promise.resolve(null));
         t.getMock('jprivard').expects('save').once().returns(Promise.resolve(null));
         t.bot().will().reply("You've been removed from the team.");

@@ -7,7 +7,7 @@ var storySchema = new Schema({
     votes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Vote'}]
 });
 
-storySchema.statics.getOrCreate = function (key) {
+storySchema.statics.get = function (key) {
     return new Promise(function (resolve, reject) {
         this.findByKey(key)
             .then(function (story) {

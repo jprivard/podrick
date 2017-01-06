@@ -27,11 +27,11 @@ Unsubscribe.prototype.fromTeam = function (bot, message) {
     var username = message.user;
     var teamName = message.match[1];
     return new Promise(function (resolve) {
-        this.team.getOrCreate(teamName).then(function (team) {
+        this.team.get(teamName).then(function (team) {
             if (!team.hasMember(username)) {
                 bot.reply(this.NOT_MEMBER);
             } else {
-                this.user.getOrCreate(username).then(function (user) {
+                this.user.get(username).then(function (user) {
                     var position = team.members.indexOf(user);
                     team.members.splice(position, 1);
                     team.save().then(function () {

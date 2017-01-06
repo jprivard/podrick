@@ -20,7 +20,7 @@ Share.prototype.listenedBy = function (bot) {
 };
 
 Share.prototype.results = function (bot, message) {
-    this.story.getOrCreate(message.match[1]).then(function (story) {
+    this.story.get(message.match[1]).then(function (story) {
         if (story.votes.length > 0) {
             var result = this.MESSAGE.format(story.key);
             story.votes.forEach(function (vote) {

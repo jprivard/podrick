@@ -18,7 +18,7 @@ describe('Team Module / Define', function () {
 
     it('Warns you if you\'re not part of a team', function () {
         user = t.createMock('jprivard', t.aUser().withUsername('jprivard').build());
-        t.getMock('user').expects('getOrCreate').once().withArgs('jprivard').returns(Promise.resolve(user));
+        t.getMock('user').expects('get').once().withArgs('jprivard').returns(Promise.resolve(user));
         t.bot().will().reply('you are not in a team');
 
         define.setting(bot, message);
@@ -28,8 +28,8 @@ describe('Team Module / Define', function () {
         message.match[1] = 'invalid';
         var user = t.createMock('jprivard', t.aUser().withUsername('jprivard').withTeam('House Jayess').build());
         var team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').addMember(user).build());
-        t.getMock('user').expects('getOrCreate').once().withArgs('jprivard').returns(Promise.resolve(user));
-        t.getMock('team').expects('getOrCreate').once().withArgs('House Jayess').returns(Promise.resolve(team));
+        t.getMock('user').expects('get').once().withArgs('jprivard').returns(Promise.resolve(user));
+        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(team));
         t.bot().will().reply('this is not a valid setting');
 
         define.setting(bot, message);
@@ -38,8 +38,8 @@ describe('Team Module / Define', function () {
     it('Saves the modified team', function () {
         var user = t.createMock('jprivard', t.aUser().withUsername('jprivard').withTeam('House Jayess').build());
         var team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').addMember(user).build());
-        t.getMock('user').expects('getOrCreate').once().withArgs('jprivard').returns(Promise.resolve(user));
-        t.getMock('team').expects('getOrCreate').once().withArgs('House Jayess').returns(Promise.resolve(team));
+        t.getMock('user').expects('get').once().withArgs('jprivard').returns(Promise.resolve(user));
+        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(team));
         t.getMock('houseJayess').expects('save').once().returns(Promise.resolve(null));
         t.bot().will().reply('The value has been saved');
 

@@ -17,7 +17,7 @@ describe('Planning Poker Module / Share', function () {
 
     it('Lets you know when there is no story for the mentioned key.', function () {
         story = t.aStory().withKey('BLR-1337').build();
-        t.getMock('story').expects('getOrCreate').once().withArgs('BLR-1337').returns(Promise.resolve(story));
+        t.getMock('story').expects('get').once().withArgs('BLR-1337').returns(Promise.resolve(story));
         t.bot().will().reply('I\'m afraid I have no result for this story.');
 
         share.results(bot, message);
@@ -27,7 +27,7 @@ describe('Planning Poker Module / Share', function () {
         vote1 = t.aVote().withUser('jprivard').withValue(8).build();
         vote2 = t.aVote().withUser('etremblay').withValue(5).build();
         story = t.aStory().withKey('BLR-1337').addVote(vote1).addVote(vote2).build();
-        t.getMock('story').expects('getOrCreate').once().withArgs('BLR-1337').returns(Promise.resolve(story));
+        t.getMock('story').expects('get').once().withArgs('BLR-1337').returns(Promise.resolve(story));
         t.bot().will().reply(['results for BLR-1337', '<@jprivard> voted 8', '<@etremblay> voted 5']);
 
         share.results(bot, message);

@@ -11,7 +11,7 @@ var teamSchema = new Schema({
     members: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}]
 });
 
-teamSchema.statics.getOrCreate = function (teamName) {
+teamSchema.statics.get = function (teamName) {
     return new Promise(function (resolve, reject) {
         this.findByName(teamName)
             .then(function (team) {

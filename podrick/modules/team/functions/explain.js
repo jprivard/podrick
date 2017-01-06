@@ -26,7 +26,7 @@ Explain.prototype.description = function () {
 };
 
 Explain.prototype.userDetails = function (bot, message) {
-    this.user.getOrCreate(message.user).then(function (user) {
+    this.user.get(message.user).then(function (user) {
         if (user.team) {
             bot.reply(this.PART_OF_TEAM.format(user.team));
         } else {
@@ -36,7 +36,7 @@ Explain.prototype.userDetails = function (bot, message) {
 };
 
 Explain.prototype.teamDetails = function (bot, message) {
-    this.team.getOrCreate(message.match[1]).then(function (team) {
+    this.team.get(message.match[1]).then(function (team) {
         var result = this.MEMBERS_OF.format(team.name);
         if (team.members.length > 0) {
             team.members.forEach(function (member) {

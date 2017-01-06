@@ -21,9 +21,9 @@ Define.prototype.description = function () {
 };
 
 Define.prototype.setting = function (bot, message) {
-    this.user.getOrCreate(message.user).then(function (user) {
+    this.user.get(message.user).then(function (user) {
         if (user.team !== '') {
-            this.team.getOrCreate(user.team).then(function (team) {
+            this.team.get(user.team).then(function (team) {
                 if (team[message.match[1]] !== undefined) {
                     team[message.match[1]] = message.match[2];
                     team.save().then(function () {

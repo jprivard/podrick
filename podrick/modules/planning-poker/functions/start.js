@@ -29,9 +29,9 @@ Start.prototype.listenedBy = function (bot) {
 Start.prototype.game = function (bot, message) {
     this.message = message;
     return new Promise(function (resolve) {
-        this.user.getOrCreate(message.user).then(function (user) {
+        this.user.get(message.user).then(function (user) {
             if (user.team !== '') {
-                this.team.getOrCreate(user.team).then(function (team) {
+                this.team.get(user.team).then(function (team) {
                     team.members.forEach(this._open_conversation.bind(this, bot, message.match[1], team, resolve));
                 }.bind(this));
                 bot.reply(this.SETUP_CONFIRM_MSG.format(message.match[1]));
@@ -58,7 +58,7 @@ Start.prototype._open_conversation = function (bot, story, team, resolve, member
 };
 
 Start.prototype._compile_vote = function(bot, key, team, resolve, response, conversation) {
-    this.story.getOrCreate(key).then(function (story) {
+    this.story.get(key).then(function (story) {
         this.vote.createVote(response.user, response.text).then(function (vote) {
             story.votes.push(vote);
             story.save().then(function () {
