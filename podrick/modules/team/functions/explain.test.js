@@ -17,7 +17,7 @@ describe('Team Module / Explain', function () {
 
     it('Gives you your details.', function () {
         user = t.createMock('jprivard', t.aUser().withUsername('jprivard').withTeam('House Jayess').build());
-        t.getMock('user').expects('get').once().withArgs('jprivard').returns(Promise.resolve(user));
+        t.user().getUser('jprivard').resolves(user);
         t.bot().will().reply('You are part of the "House Jayess" team');
 
         explain.userDetails(bot, message);
@@ -25,7 +25,7 @@ describe('Team Module / Explain', function () {
 
     it('Lets you know when you\'re not part of a team.', function () {
         user = t.createMock('jprivard', t.aUser().withUsername('jprivard').build());
-        t.getMock('user').expects('get').once().withArgs('jprivard').returns(Promise.resolve(user));
+        t.user().getUser('jprivard').resolves(user);
         t.bot().will().reply('You are not part of a team');
 
         explain.userDetails(bot, message);

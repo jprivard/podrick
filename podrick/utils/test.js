@@ -7,6 +7,7 @@ var UserBuilder = require("./builders/user");
 var StoryBuilder = require("./builders/story");
 var VoteBuilder = require("./builders/vote");
 var BotInspector = require('./inspectors/bot');
+var UserInspector = require('./inspectors/user');
 var sinon = require("sinon");
 
 function Test() {
@@ -68,6 +69,10 @@ Test.prototype.aMessage = function (username, matches) {
 
 Test.prototype.bot = function() {
     return new BotInspector(this.getMock('bot'));
+};
+
+Test.prototype.user = function() {
+    return new UserInspector(this.getMock('user'));
 };
 
 String.prototype.format = function () {
