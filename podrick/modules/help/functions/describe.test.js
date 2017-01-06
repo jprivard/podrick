@@ -7,7 +7,7 @@ describe('Help Module / Describe', function () {
     var t, describe, modules;
 
     it('Declares to the adapter when the function should be executed', function() {
-        t.getMock('bot').expects('reactsTo').once().withArgs('Help');
+        t.bot().will().reactTo('Help');
         describe.listenedBy(bot);
     });
 
@@ -20,7 +20,11 @@ describe('Help Module / Describe', function () {
         modules['Dos'] = t.createMock('dos', t.aModule());
         t.getMock('uno').expects('description').once().returns('Module 1');
         t.getMock('dos').expects('description').once().returns('Module 2');
-        t.getMock('bot').expects('reply').withArgs('I offer these services:\n- Module 1 (More details by saying `How to use "Uno"`)\n- Module 2 (More details by saying `How to use "Dos"`)\n');
+        t.bot().will().reply([
+            'Module 1 (More details by saying `How to use "Uno"`)',
+            'Module 2 (More details by saying `How to use "Dos"`)'
+        ]);
+
         describe.modules(bot);
     });
 
@@ -29,7 +33,8 @@ describe('Help Module / Describe', function () {
         modules['Dos'] = t.createMock('dos', t.aModule());
         t.getMock('uno').expects('description').once().returns('Module 1');
         t.getMock('dos').expects('description').once().returns('');
-        t.getMock('bot').expects('reply').withArgs('I offer these services:\n- Module 1 (More details by saying `How to use "Uno"`)\n');
+        t.bot().will().not().reply('How to use "Dos"');
+
         describe.modules(bot);
     });
 

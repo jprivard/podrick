@@ -7,7 +7,7 @@ describe('Planning Poker Module / Share', function () {
     var t, share, vote1, vote2, bot, message, story;
 
     it('Declares to the adapter when the function should be executed', function() {
-        t.getMock('bot').expects('reactsTo').once().withArgs('Share results for (.*)');
+        t.bot().will().reactTo('Share results for (.*)');
         share.listenedBy(bot);
     });
 
@@ -18,7 +18,7 @@ describe('Planning Poker Module / Share', function () {
     it('Lets you know when there is no story for the mentioned key.', function () {
         story = t.aStory().withKey('BLR-1337').build();
         t.getMock('story').expects('getOrCreate').once().withArgs('BLR-1337').returns(Promise.resolve(story));
-        t.getMock('bot').expects('reply').once().withArgs('I\'m afraid I have no result for this story.');
+        t.bot().will().reply('I\'m afraid I have no result for this story.');
 
         share.results(bot, message);
     });
@@ -28,7 +28,7 @@ describe('Planning Poker Module / Share', function () {
         vote2 = t.aVote().withUser('etremblay').withValue(5).build();
         story = t.aStory().withKey('BLR-1337').addVote(vote1).addVote(vote2).build();
         t.getMock('story').expects('getOrCreate').once().withArgs('BLR-1337').returns(Promise.resolve(story));
-        t.getMock('bot').expects('reply').once().withArgs('The results for BLR-1337 are in:\n<@jprivard> voted 8\n<@etremblay> voted 5\n');
+        t.bot().will().reply(['results for BLR-1337', '<@jprivard> voted 8', '<@etremblay> voted 5']);
 
         share.results(bot, message);
     });

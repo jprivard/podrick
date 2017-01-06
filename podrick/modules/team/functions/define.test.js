@@ -8,7 +8,7 @@ describe('Team Module / Define', function () {
     var t, define, bot, message;
 
     it('Declares to the adapter when the function should be executed', function() {
-        t.getMock('bot').expects('reactsTo').once().withArgs('Define "(.*)" to be "(.*)"');
+        t.bot().will().reactTo('Define "(.*)" to be "(.*)"');
         define.listenedBy(bot);
     });
 
@@ -19,7 +19,8 @@ describe('Team Module / Define', function () {
     it('Warns you if you\'re not part of a team', function () {
         user = t.createMock('jprivard', t.aUser().withUsername('jprivard').build());
         t.getMock('user').expects('getOrCreate').once().withArgs('jprivard').returns(Promise.resolve(user));
-        t.getMock('bot').expects('reply').once().withArgs('I\'m afraid you are not in a team. Please subscribe to one first.');
+        t.bot().will().reply('you are not in a team');
+
         define.setting(bot, message);
     });
 
@@ -29,7 +30,8 @@ describe('Team Module / Define', function () {
         var team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').addMember(user).build());
         t.getMock('user').expects('getOrCreate').once().withArgs('jprivard').returns(Promise.resolve(user));
         t.getMock('team').expects('getOrCreate').once().withArgs('House Jayess').returns(Promise.resolve(team));
-        t.getMock('bot').expects('reply').once().withArgs('I\'m afraid this is not a valid setting.');
+        t.bot().will().reply('this is not a valid setting');
+
         define.setting(bot, message);
     });
 
@@ -39,7 +41,8 @@ describe('Team Module / Define', function () {
         t.getMock('user').expects('getOrCreate').once().withArgs('jprivard').returns(Promise.resolve(user));
         t.getMock('team').expects('getOrCreate').once().withArgs('House Jayess').returns(Promise.resolve(team));
         t.getMock('houseJayess').expects('save').once().returns(Promise.resolve(null));
-        t.getMock('bot').expects('reply').once().withArgs('Okay. The value has been saved.');
+        t.bot().will().reply('The value has been saved');
+
         define.setting(bot, message);
     });
 

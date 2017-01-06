@@ -1,6 +1,5 @@
 var chai = require('chai');
 var expect = chai.expect;
-var sinon = require('sinon');
 var MockDate = require('mockdate');
 var Explain = require("./explain");
 var Jira = require('../../../adapters/jira');
@@ -10,7 +9,7 @@ describe('Daily Module / Explain', function () {
     var t, bot, message, explain, jira;
 
     it('Declares to the adapter when the function should be executed', function() {
-        t.getMock('bot').expects('reactsTo').once().withArgs('Prepare the daily');
+        t.bot().will().reactTo('Prepare the daily');
         explain.listenedBy(bot);
     });
 
@@ -31,7 +30,8 @@ describe('Daily Module / Explain', function () {
     it('Explains to the user he/she is not part of a team', function () {
         var user = t.createMock('jprivard', t.aUser().withUsername('jprivard').build());
         t.getMock('user').expects('getOrCreate').once().withArgs('jprivard').returns(Promise.resolve(user));
-        t.getMock('bot').expects('reply').once().withArgs(sinon.match('You are not part of a team'));
+        t.bot().will().reply('You are not part of a team');
+
         explain.details(bot, message);
     });
 
@@ -41,7 +41,8 @@ describe('Daily Module / Explain', function () {
         t.getMock('user').expects('getOrCreate').once().withArgs('jprivard').returns(Promise.resolve(user));
         t.getMock('team').expects('getOrCreate').once().withArgs('House Jayess').returns(Promise.resolve(team));
         t.getMock('jira').expects('getSummarySinceLastDaily').once().withArgs(123).returns(Promise.resolve([]));
-        t.getMock('bot').expects('reply').once().withArgs(sinon.match('<@jprivard>: Your daily is about to start'));
+        t.bot().will().reply('<@jprivard>: Your daily is about to start');
+
         explain.details(bot, message);
     });
 
@@ -51,7 +52,8 @@ describe('Daily Module / Explain', function () {
         t.getMock('user').expects('getOrCreate').once().withArgs('jprivard').returns(Promise.resolve(user));
         t.getMock('team').expects('getOrCreate').once().withArgs('House Jayess').returns(Promise.resolve(team));
         t.getMock('jira').expects('getSummarySinceLastDaily').once().withArgs(123).returns(Promise.resolve([]));
-        t.getMock('bot').expects('reply').once().withArgs(sinon.match('Location: http://hangout'));
+        t.bot().will().reply('Location: http://hangout');
+
         explain.details(bot, message);
     });
 
@@ -61,9 +63,8 @@ describe('Daily Module / Explain', function () {
         t.getMock('user').expects('getOrCreate').once().withArgs('jprivard').returns(Promise.resolve(user));
         t.getMock('team').expects('getOrCreate').once().withArgs('House Jayess').returns(Promise.resolve(team));
         t.getMock('jira').expects('getSummarySinceLastDaily').once().withArgs(123).returns(Promise.resolve([]));
-        t.getMock('bot').expects('reply').once().withArgs(sinon.match(function(value) {
-            return value.indexOf("Location") === -1;
-        }));
+        t.bot().will().not().reply('Location');
+
         explain.details(bot, message);
     });
 
@@ -73,9 +74,8 @@ describe('Daily Module / Explain', function () {
         t.getMock('user').expects('getOrCreate').once().withArgs('jprivard').returns(Promise.resolve(user));
         t.getMock('team').expects('getOrCreate').once().withArgs('House Jayess').returns(Promise.resolve(team));
         t.getMock('jira').expects('getSummarySinceLastDaily').once().withArgs(123).returns(Promise.resolve([]));
-        t.getMock('bot').expects('reply').once().withArgs(sinon.match(function(value) {
-            return value.indexOf("I noticed these changes in JIRA") === -1;
-        }));
+        t.bot().will().not().reply('I noticed these changes in JIRA');
+
         explain.details(bot, message);
     });
 
@@ -86,10 +86,11 @@ describe('Daily Module / Explain', function () {
         t.getMock('user').expects('getOrCreate').once().withArgs('jprivard').returns(Promise.resolve(user));
         t.getMock('team').expects('getOrCreate').once().withArgs('House Jayess').returns(Promise.resolve(team));
         t.getMock('jira').expects('getSummarySinceLastDaily').once().withArgs(123).returns(Promise.resolve(logs));
-        t.getMock('bot').expects('reply').once().withArgs(sinon.match(function(value) {
-            return value.indexOf("I noticed these changes in JIRA") > 0
-                && value.indexOf(" - JP transitioned <https://jira/BLR-123|BLR-123> (`Do Stuff`) from ~In Progress~ to *Resolved*\n") > 0;
-        }));
+        t.bot().will().reply([
+            "I noticed these changes in JIRA",
+            " - JP transitioned <https://jira/BLR-123|BLR-123> (`Do Stuff`) from ~In Progress~ to *Resolved*\n"
+        ]);
+
         explain.details(bot, message);
     });
 

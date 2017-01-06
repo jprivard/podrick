@@ -6,6 +6,7 @@ var TeamBuilder = require("./builders/team");
 var UserBuilder = require("./builders/user");
 var StoryBuilder = require("./builders/story");
 var VoteBuilder = require("./builders/vote");
+var BotInspector = require('./inspectors/bot');
 var sinon = require("sinon");
 
 function Test() {
@@ -63,6 +64,10 @@ Test.prototype.aMongoose = function () {
 
 Test.prototype.aMessage = function (username, matches) {
     return new FakeMessage(username, [''].concat(matches));
+};
+
+Test.prototype.bot = function() {
+    return new BotInspector(this.getMock('bot'));
 };
 
 String.prototype.format = function () {
