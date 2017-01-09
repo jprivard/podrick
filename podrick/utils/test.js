@@ -71,8 +71,8 @@ Test.prototype.bot = function() {
     return new BotInspector(this.getMock('bot'));
 };
 
-Test.prototype.user = function() {
-    return new UserInspector(this.getMock('user'));
+Test.prototype.user = function(username) {
+    return new UserInspector(this.getMock('user'), username);
 };
 
 String.prototype.format = function () {

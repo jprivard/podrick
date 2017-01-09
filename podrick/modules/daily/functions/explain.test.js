@@ -28,7 +28,7 @@ describe('Daily Module / Explain', function () {
     });
 
     it('Tells the user is not part of a team', function () {
-        t.user().getTeamOf('jprivard').rejects();
+        t.user('jprivard').team.rejects({});
         t.bot().will.reply('You are not part of a team');
 
         explain.details(bot, message);
@@ -37,7 +37,7 @@ describe('Daily Module / Explain', function () {
     it('Tags teammates that the Daily is about to start', function() {
         var user = t.createMock('jprivard', t.aUser().withUsername('jprivard').withTeam('House Jayess').build());
         var team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').addMember(user).withMeetup('http://hangout').withRapidView(123).build());
-        t.user().getTeamOf('jprivard').resolves(team);
+        t.user('jprivard').team.resolves(team);
         t.getMock('jira').expects('getSummarySinceLastDaily').once().withArgs(123).returns(Promise.resolve([]));
         t.bot().will.reply('<@jprivard>: Your daily is about to start');
 
@@ -46,7 +46,7 @@ describe('Daily Module / Explain', function () {
 
     it('Gives the team registered meetup url when one is set', function () {
         var team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').withMeetup('http://hangout').withRapidView(123).build());
-        t.user().getTeamOf('jprivard').resolves(team);
+        t.user('jprivard').team.resolves(team);
         t.getMock('jira').expects('getSummarySinceLastDaily').once().withArgs(123).returns(Promise.resolve([]));
         t.bot().will.reply('Location: http://hangout');
 
@@ -55,7 +55,7 @@ describe('Daily Module / Explain', function () {
 
     it('Gives no meetup url when none is set', function () {
         var team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').withMeetup('').withRapidView(123).build());
-        t.user().getTeamOf('jprivard').resolves(team);
+        t.user('jprivard').team.resolves(team);
         t.getMock('jira').expects('getSummarySinceLastDaily').once().withArgs(123).returns(Promise.resolve([]));
         t.bot().will.not.reply('Location');
 
@@ -64,7 +64,7 @@ describe('Daily Module / Explain', function () {
 
     it('Won\'t talk about any changes in Jira if nothing happened', function () {
         var team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').withRapidView(123).build());
-        t.user().getTeamOf('jprivard').resolves(team);
+        t.user('jprivard').team.resolves(team);
         t.getMock('jira').expects('getSummarySinceLastDaily').once().withArgs(123).returns(Promise.resolve([]));
         t.bot().will.not.reply('I noticed these changes in JIRA');
 
@@ -74,7 +74,7 @@ describe('Daily Module / Explain', function () {
     it('Lists all the activities in Jira', function () {
         var logs = [{author: 'JP', key:'BLR-123', summary:'Do Stuff', from:'In Progress', to:'Resolved'}];
         var team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').withRapidView(123).build());
-        t.user().getTeamOf('jprivard').resolves(team);
+        t.user('jprivard').team.resolves(team);
         t.getMock('jira').expects('getSummarySinceLastDaily').once().withArgs(123).returns(Promise.resolve(logs));
         t.bot().will.reply([
             "I noticed these changes in JIRA",
