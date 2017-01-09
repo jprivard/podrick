@@ -32,8 +32,7 @@ describe('Team Module / Define', function () {
     });
 
     it('Saves the modified team', function () {
-        team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').build());
-        t.user('jprivard').team.resolves(team);
+        t.user('jprivard').team.resolves(t.createMock('houseJayess',t.houseJayess().build()));
         t.getMock('houseJayess').expects('save').once().returns(Promise.resolve(null));
         t.bot().will.reply('The value has been saved');
 

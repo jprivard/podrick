@@ -32,9 +32,7 @@ describe('Team Module / Explain', function () {
     });
 
     it('Gives you the team\'s members.', function () {
-        user1 = t.createMock('jprivard', t.aUser().withUsername('jprivard').build());
-        user2 = t.createMock('etremblay', t.aUser().withUsername('etremblay').build());
-        team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').addMember(user1).addMember(user2).build());
+        team = t.houseJayess().addMember(t.jprivard().build()).addMember(t.etremblay().build()).build();
         t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(team));
         t.bot().will.reply(['<@jprivard>', '<@etremblay>']);
 
@@ -42,16 +40,14 @@ describe('Team Module / Explain', function () {
     });
 
     it('Gives the team registered meetup url', function () {
-        team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').withMeetup('http://hangout').build());
-        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(team));
+        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(t.houseJayess().build()));
         t.bot().will.reply('They usually meet on: http://hangout');
 
         explain.teamDetails(bot, message);
     });
 
     it('Warns you if the mentioned team has no member.', function () {
-        team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').build());
-        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(team));
+        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(t.houseJayess().build()));
         t.bot().will.reply('No member for team "House Jayess"');
 
         explain.teamDetails(bot, message);

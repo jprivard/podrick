@@ -67,6 +67,18 @@ Test.prototype.aMessage = function (username, matches) {
     return new FakeMessage(username, [''].concat(matches));
 };
 
+Test.prototype.jprivard = function () {
+    return this.aUser().withUsername('jprivard').withTeam('House Jayess');
+};
+
+Test.prototype.etremblay = function () {
+    return this.aUser().withUsername('etremblay').withTeam('House Jayess');
+};
+
+Test.prototype.houseJayess = function () {
+    return this.aTeam().withName('House Jayess').withMeetup('http://hangout').withRapidView(123);
+};
+
 Test.prototype.bot = function() {
     return new BotInspector(this.getMock('bot'));
 };

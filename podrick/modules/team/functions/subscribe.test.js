@@ -16,19 +16,15 @@ describe('Team Module / Subscribe', function () {
     });
 
     it('Warns you if you\'re already part of the mentioned team.', function () {
-        user = t.createMock('jprivard', t.aUser().withUsername('jprivard').build());
-        team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').addMember(user).build());
-
-        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(team));
+        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(t.houseJayess().addMember(t.jprivard().build()).build()));
         t.bot().will.reply("I'm afraid you already are a member.");
 
         subscribe.toTeam(bot, message);
     });
 
     it('Adds you to the team.', function (done) {
-        user = t.createMock('jprivard', t.aUser().withUsername('jprivard').build());
-        team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').build());
-
+        user = t.createMock('jprivard', t.jprivard().withTeam('').build());
+        team = t.createMock('houseJayess', t.houseJayess().build());
         t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(team));
         t.user('jprivard').instance.resolves(user);
         t.getMock('houseJayess').expects('save').once().returns(Promise.resolve(null));

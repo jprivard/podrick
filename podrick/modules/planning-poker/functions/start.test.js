@@ -23,12 +23,11 @@ describe('Planning Poker Module / Start', function () {
     });
 
     it('Acknowledges your requests are sends the game to your team members.', function () {
-        user1 = t.createMock('jprivard', t.aUser().withUsername('jprivard').withTeam('House Jayess').build());
-        user2 = t.createMock('etremblay', t.aUser().withUsername('etremblay').withTeam('House Jayess').build());
-        team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').addMember(user1).addMember(user2).build());
-        t.user('jprivard').team.resolves(team);
-        t.bot().will.converse().with(user1);
-        t.bot().will.converse().with(user2);
+        var jprivard = t.jprivard().build();
+        var etremblay = t.etremblay().build();
+        t.user('jprivard').team.resolves(t.houseJayess().addMember(jprivard).addMember(etremblay).build());
+        t.bot().will.converse().with(jprivard);
+        t.bot().will.converse().with(etremblay);
         t.bot().will.reply('I\'ll ask the team to cast their vote for BLR-1337');
 
         start.game(bot, message);
@@ -46,7 +45,7 @@ describe('Planning Poker Module / Start', function () {
             options[1].callback({}, convo);
         }};
 
-        start_conversation();
+        t.user('jprivard').team.resolves(t.houseJayess().addMember(t.jprivard().build()).build());
         t.bot().will.converse().and().say(conversation);
 
         start.game(bot, message);
@@ -68,7 +67,7 @@ describe('Planning Poker Module / Start', function () {
             options[0].callback({user: 'jprivard', 'text': '8'}, convo);
         }};
 
-        start_conversation();
+        t.user('jprivard').team.resolves(t.houseJayess().addMember(t.jprivard().build()).build());
         t.bot().will.converse().and().say(conversation);
         t.getMock('share').expects('results').once();
 
@@ -83,18 +82,17 @@ describe('Planning Poker Module / Start', function () {
         var conversation = { ask: function (question, options) {
             options[0].callback({user: 'jprivard', 'text': '8'}, convo);
         }};
-        user1 = t.createMock('jprivard', t.aUser().withUsername('jprivard').withTeam('House Jayess').build());
-        user2 = t.createMock('etremblay', t.aUser().withUsername('etremblay').withTeam('House Jayess').build());
-        team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').addMember(user1).addMember(user2).build());
-        t.user('jprivard').team.resolves(team);
+        var jprivard = t.jprivard().build();
+        var etremblay = t.etremblay().build();
+        t.user('jprivard').team.resolves(t.houseJayess().addMember(jprivard).addMember(etremblay).build());
         story = t.createMock('blr1337', t.aStory().withKey('BLR-1337').build());
         vote = t.aVote().withUser('jprivard').withValue(8).build();
         t.getMock('story').expects('get').once().withArgs('BLR-1337').returns(Promise.resolve(story));
         t.getMock('vote').expects('createVote').once().withArgs('jprivard', '8').returns(Promise.resolve(vote));
         t.getMock('blr1337').expects('save').once().returns(Promise.resolve(null));
 
-        t.bot().will.converse().with(user1).and().say(conversation);
-        t.bot().will.converse().with(user2);
+        t.bot().will.converse().with(jprivard).and().say(conversation);
+        t.bot().will.converse().with(etremblay);
         t.getMock('share').expects('results').never();
 
         start.game(bot, message);
@@ -114,10 +112,4 @@ describe('Planning Poker Module / Start', function () {
     afterEach(function () {
         t.verifyMocks();
     });
-
-    var start_conversation = function () {
-        user = t.createMock('jprivard', t.aUser().withUsername('jprivard').withTeam('House Jayess').build());
-        team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').addMember(user).build());
-        t.user('jprivard').team.resolves(team);
-    };
 });

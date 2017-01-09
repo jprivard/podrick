@@ -16,16 +16,14 @@ describe('Team Module / Unsubscribe', function () {
     });
 
     it('Warns you if you\'re not part of the mentioned team.', function () {
-        team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').build());
-        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(team));
+        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(t.houseJayess().build()));
         t.bot().will.reply("you are not a member of that team.");
-
         unsubscribe.fromTeam(bot, message);
     });
 
     it('Removes your subscription from the mentioned team.', function (done) {
-        user = t.createMock('jprivard', t.aUser().withUsername('jprivard').withTeam('House Jayess').build());
-        team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').addMember(user).build());
+        user = t.createMock('jprivard', t.jprivard().build());
+        team = t.createMock('houseJayess', t.houseJayess().addMember(user).build());
 
         t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(team));
         t.user('jprivard').instance.resolves(user);
