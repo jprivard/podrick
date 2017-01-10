@@ -16,7 +16,7 @@ describe('Team Module / Subscribe', function () {
     });
 
     it('Warns you if you\'re already part of the mentioned team.', function () {
-        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(t.houseJayess().addMember(t.jprivard().build()).build()));
+        t.team('House Jayess').instance.resolves(t.houseJayess().addMember(t.jprivard().build()).build());
         t.bot().will.reply("I'm afraid you already are a member.");
 
         subscribe.toTeam(bot, message);
@@ -25,7 +25,7 @@ describe('Team Module / Subscribe', function () {
     it('Adds you to the team.', function (done) {
         user = t.createMock('jprivard', t.jprivard().withTeam('').build());
         team = t.createMock('houseJayess', t.houseJayess().build());
-        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(team));
+        t.team('House Jayess').instance.resolves(team);
         t.user('jprivard').instance.resolves(user);
         t.getMock('houseJayess').expects('save').once().returns(Promise.resolve(null));
         t.getMock('jprivard').expects('save').once().returns(Promise.resolve(null));

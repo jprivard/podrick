@@ -8,6 +8,8 @@ var StoryBuilder = require("./builders/story");
 var VoteBuilder = require("./builders/vote");
 var BotInspector = require('./inspectors/bot');
 var UserInspector = require('./inspectors/user');
+var JiraInspector = require('./inspectors/jira');
+var TeamInspector = require('./inspectors/team');
 var sinon = require("sinon");
 
 function Test() {
@@ -85,6 +87,14 @@ Test.prototype.bot = function() {
 
 Test.prototype.user = function(username) {
     return new UserInspector(this.getMock('user'), username);
+};
+
+Test.prototype.team = function(name) {
+    return new TeamInspector(this.getMock('team'), name);
+};
+
+Test.prototype.jira = function() {
+    return new JiraInspector(this.getMock('jira'));
 };
 
 String.prototype.format = function () {

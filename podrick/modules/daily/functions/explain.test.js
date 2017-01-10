@@ -36,7 +36,7 @@ describe('Daily Module / Explain', function () {
 
     it('Tags teammates that the Daily is about to start', function() {
         t.user('jprivard').team.resolves(t.houseJayess().addMember(t.jprivard().build()).build());
-        t.getMock('jira').expects('getSummarySinceLastDaily').once().withArgs(123).returns(Promise.resolve([]));
+        t.jira().dailySummary.of.rapidBoard(123).resolves([]);
         t.bot().will.reply('<@jprivard>: Your daily is about to start');
 
         explain.details(bot, message);
@@ -44,7 +44,7 @@ describe('Daily Module / Explain', function () {
 
     it('Gives the team registered meetup url when one is set', function () {
         t.user('jprivard').team.resolves(t.houseJayess().build());
-        t.getMock('jira').expects('getSummarySinceLastDaily').once().withArgs(123).returns(Promise.resolve([]));
+        t.jira().dailySummary.of.rapidBoard(123).resolves([]);
         t.bot().will.reply('Location: http://hangout');
 
         explain.details(bot, message);
@@ -52,7 +52,7 @@ describe('Daily Module / Explain', function () {
 
     it('Gives no meetup url when none is set', function () {
         t.user('jprivard').team.resolves(t.houseJayess().withMeetup('').build());
-        t.getMock('jira').expects('getSummarySinceLastDaily').once().withArgs(123).returns(Promise.resolve([]));
+        t.jira().dailySummary.of.rapidBoard(123).resolves([]);
         t.bot().will.not.reply('Location');
 
         explain.details(bot, message);
@@ -60,7 +60,7 @@ describe('Daily Module / Explain', function () {
 
     it('Won\'t talk about any changes in Jira if nothing happened', function () {
         t.user('jprivard').team.resolves(t.houseJayess().build());
-        t.getMock('jira').expects('getSummarySinceLastDaily').once().withArgs(123).returns(Promise.resolve([]));
+        t.jira().dailySummary.of.rapidBoard(123).resolves([]);
         t.bot().will.not.reply('I noticed these changes in JIRA');
 
         explain.details(bot, message);
@@ -69,7 +69,7 @@ describe('Daily Module / Explain', function () {
     it('Lists all the activities in Jira', function () {
         var logs = [{author: 'JP', key:'BLR-123', summary:'Do Stuff', from:'In Progress', to:'Resolved'}];
         t.user('jprivard').team.resolves(t.houseJayess().build());
-        t.getMock('jira').expects('getSummarySinceLastDaily').once().withArgs(123).returns(Promise.resolve(logs));
+        t.jira().dailySummary.of.rapidBoard(123).resolves(logs);
         t.bot().will.reply([
             "I noticed these changes in JIRA",
             " - JP transitioned <https://jira/BLR-123|BLR-123> (`Do Stuff`) from ~In Progress~ to *Resolved*\n"

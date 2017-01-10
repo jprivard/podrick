@@ -16,38 +16,38 @@ describe('Team Module / Explain', function () {
     });
 
     it('Gives you your details.', function () {
-        user = t.createMock('jprivard', t.aUser().withUsername('jprivard').withTeam('House Jayess').build());
-        t.user('jprivard').instance.resolves(user);
+        t.user('jprivard').instance.resolves(t.jprivard().build());
         t.bot().will.reply('You are part of the "House Jayess" team');
 
         explain.userDetails(bot, message);
     });
 
     it('Lets you know when you\'re not part of a team.', function () {
-        user = t.createMock('jprivard', t.aUser().withUsername('jprivard').build());
-        t.user('jprivard').instance.resolves(user);
+        t.user('jprivard').instance.resolves(t.jprivard().withTeam('').build());
         t.bot().will.reply('You are not part of a team');
 
         explain.userDetails(bot, message);
     });
 
     it('Gives you the team\'s members.', function () {
-        team = t.houseJayess().addMember(t.jprivard().build()).addMember(t.etremblay().build()).build();
-        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(team));
+        t.team('House Jayess').instance.resolves(t.houseJayess()
+            .addMember(t.jprivard().build())
+            .addMember(t.etremblay().build())
+            .build());
         t.bot().will.reply(['<@jprivard>', '<@etremblay>']);
 
         explain.teamDetails(bot, message);
     });
 
     it('Gives the team registered meetup url', function () {
-        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(t.houseJayess().build()));
+        t.team('House Jayess').instance.resolves(t.houseJayess().build());
         t.bot().will.reply('They usually meet on: http://hangout');
 
         explain.teamDetails(bot, message);
     });
 
     it('Warns you if the mentioned team has no member.', function () {
-        t.getMock('team').expects('get').once().withArgs('House Jayess').returns(Promise.resolve(t.houseJayess().build()));
+        t.team('House Jayess').instance.resolves(t.houseJayess().build());
         t.bot().will.reply('No member for team "House Jayess"');
 
         explain.teamDetails(bot, message);

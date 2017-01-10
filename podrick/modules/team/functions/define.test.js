@@ -24,8 +24,7 @@ describe('Team Module / Define', function () {
 
     it('Warns you if you\'re trying to modify an invalid setting', function () {
         message.match[1] = 'invalid';
-        team = t.createMock('houseJayess', t.aTeam().withName('House Jayess').build());
-        t.user('jprivard').team.resolves(team);
+        t.user('jprivard').team.resolves(t.houseJayess().build());
         t.bot().will.reply('this is not a valid setting');
 
         define.setting(bot, message);
